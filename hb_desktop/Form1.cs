@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Npgsql;
 using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace hb_desktop
 {
@@ -51,6 +53,8 @@ namespace hb_desktop
             MakePanelsNonvisible();
             this.ClientPanel.BringToFront();
             this.ClientPanel.Visible = true;
+
+            GetRemoteData();
         }
 
         private void GetData(String table)
@@ -59,42 +63,46 @@ namespace hb_desktop
             DataTable dt = new DataTable();
             try
             {
-                // PostgeSQL-style connection string
                 string connstring = String.Format("Server=Localhost;Port=5432;" +
                     "User Id=postgres;Password=default;Database=testdb;");
-                // Making connection with Npgsql provider
                 NpgsqlConnection conn = new NpgsqlConnection(connstring);
                 conn.Open();
-                // quite complex sql statement
                 string sql = "SELECT * FROM " + table;
-                // data adapter making request from our connection
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-                // i always reset DataSet before i do
-                // something with it.... i don't know why :-)
                 ds.Reset();
-                // filling DataSet with result from NpgsqlDataAdapter
                 da.Fill(ds);
-                // since it C# DataSet can handle multiple tables, we will select first
                 dt = ds.Tables[0];
-                // connect grid to DataTable
                 dataGridView1.DataSource = dt;
-                // since we only showing the result we don't need connection anymore
                 conn.Close();
             }
             catch (Exception msg)
             {
-                // something went wrong, and you wanna know why
                 MessageBox.Show(msg.ToString());
                 //throw;
             }
         }
 
-        private async Task<JsonObject> GetAsync(String table)
+        private async Task GetRemoteData()
         {
-            //TODO: Fix this (Ben)
-            HttpClient httpClient = new HttpClient();
-            HttpResponseMessage response = await httpClient.GetAsync()
-        }
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://54.187.159.168:8080/hb_server/api0/clients/c19f32bb-19f5-47a2-9774-11bafd20258e");
+            String content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                ClientModel root = JsonConvert.DeserializeObject<ClientModel>(content);
+                Console.WriteLine(root.ToString());
+            }
+            else
+            {
+                Console.WriteLine("Error.");
+            }
+        }       
     }
+
+    public class RootObject
+    {
+        public List<ClientModel> ClientList { get; set; }
+    }
+
         
 }
