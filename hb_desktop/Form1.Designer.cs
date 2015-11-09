@@ -40,16 +40,20 @@
             this.ClientsButton = new System.Windows.Forms.Button();
             this.EmployeeButton = new System.Windows.Forms.Button();
             this.MainPanel = new System.Windows.Forms.Panel();
-            this.InventoryPanel = new System.Windows.Forms.Panel();
             this.ClientPanel = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.InventoryPanel = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.column1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.column2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.column3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.MainPanel.SuspendLayout();
-            this.InventoryPanel.SuspendLayout();
             this.ClientPanel.SuspendLayout();
+            this.InventoryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,8 +81,9 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -154,20 +159,10 @@
             this.MainPanel.Size = new System.Drawing.Size(844, 332);
             this.MainPanel.TabIndex = 5;
             // 
-            // InventoryPanel
-            // 
-            this.InventoryPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.InventoryPanel.Controls.Add(this.dataGridView1);
-            this.InventoryPanel.Controls.Add(this.label1);
-            this.InventoryPanel.Location = new System.Drawing.Point(16, 12);
-            this.InventoryPanel.Name = "InventoryPanel";
-            this.InventoryPanel.Size = new System.Drawing.Size(825, 317);
-            this.InventoryPanel.TabIndex = 0;
-            this.InventoryPanel.Visible = false;
-            // 
             // ClientPanel
             // 
             this.ClientPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ClientPanel.Controls.Add(this.listView1);
             this.ClientPanel.Controls.Add(this.label2);
             this.ClientPanel.Location = new System.Drawing.Point(16, 12);
             this.ClientPanel.Name = "ClientPanel";
@@ -185,15 +180,16 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Clients";
             // 
-            // label1
+            // InventoryPanel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(14, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Inventory";
+            this.InventoryPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.InventoryPanel.Controls.Add(this.dataGridView1);
+            this.InventoryPanel.Controls.Add(this.label1);
+            this.InventoryPanel.Location = new System.Drawing.Point(16, 12);
+            this.InventoryPanel.Name = "InventoryPanel";
+            this.InventoryPanel.Size = new System.Drawing.Size(825, 317);
+            this.InventoryPanel.TabIndex = 0;
+            this.InventoryPanel.Visible = false;
             // 
             // dataGridView1
             // 
@@ -205,6 +201,43 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(709, 268);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(14, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Inventory";
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.column1,
+            this.column2,
+            this.column3});
+            this.listView1.Location = new System.Drawing.Point(19, 44);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(434, 208);
+            this.listView1.TabIndex = 1;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // column1
+            // 
+            this.column1.Text = "Name";
+            // 
+            // column2
+            // 
+            this.column2.Text = "Address";
+            this.column2.Width = 153;
+            // 
+            // column3
+            // 
+            this.column3.Text = "Phone";
+            this.column3.Width = 172;
             // 
             // MainForm
             // 
@@ -225,10 +258,10 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.MainPanel.ResumeLayout(false);
-            this.InventoryPanel.ResumeLayout(false);
-            this.InventoryPanel.PerformLayout();
             this.ClientPanel.ResumeLayout(false);
             this.ClientPanel.PerformLayout();
+            this.InventoryPanel.ResumeLayout(false);
+            this.InventoryPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -254,6 +287,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader column1;
+        private System.Windows.Forms.ColumnHeader column2;
+        private System.Windows.Forms.ColumnHeader column3;
     }
 }
 

@@ -54,7 +54,7 @@ namespace hb_desktop
             this.ClientPanel.BringToFront();
             this.ClientPanel.Visible = true;
 
-            GetRemoteData();
+            GetClientData();
         }
 
         private void GetData(String table)
@@ -78,31 +78,51 @@ namespace hb_desktop
             catch (Exception msg)
             {
                 MessageBox.Show(msg.ToString());
-                //throw;
             }
         }
 
-        private async Task GetRemoteData()
+        private async Task GetClientData()
         {
+            List<ClientModel> clientList = new List<ClientModel>();
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("http://54.187.159.168:8080/hb_server/api0/clients/c19f32bb-19f5-47a2-9774-11bafd20258e");
+            HttpResponseMessage response = await client.GetAsync("http://54.187.159.168:8080/hb_server/api0/clients");
             String content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                ClientModel root = JsonConvert.DeserializeObject<ClientModel>(content);
-                Console.WriteLine(root.ToString());
+                listView1.Items.Clear();
+                clientList = JsonConvert.DeserializeObject<List<ClientModel>>(content);
+                
+                foreach (var item in clientList)
+                {
+                    ListViewItem lvItem = new ListViewItem();
+                    lvItem.Text = item.name;
+
+                    ListViewItem.ListViewSubItem lvSub = new ListViewItem.ListViewSubItem();
+                    lvSub.Text = item.address;
+                    lvItem.SubItems.Add(lvSub);
+
+                    lvSub = new ListViewItem.ListViewSubItem();
+                    lvSub.Text = item.phone;
+                    lvItem.SubItems.Add(lvSub);
+
+                    listView1.Items.Add(lvItem);
+                }
             }
             else
             {
                 Console.WriteLine("Error.");
             }
-        }       
-    }
+        }
 
-    public class RootObject
-    {
-        public List<ClientModel> ClientList { get; set; }
-    }
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+    }
         
 }
